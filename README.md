@@ -12,7 +12,7 @@ and [Unsee](https://github.com/cloudflare/unsee).
 Clone this repository and run the monitoring stack:
 
 ```bash
-$ git clone https://github.com/stefanprodan/swarmprom.git
+$ git clone https://github.com/themis-spm/swarmprom.git
 $ cd swarmprom
 
 ADMIN_USER=admin \
@@ -58,7 +58,7 @@ After you login, click on the home drop down, in the left upper corner and you'l
 
 ***Docker Swarm Nodes Dashboard***
 
-![Nodes](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/swarmprom-nodes-dash-v3.png)
+![Nodes](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/swarmprom-nodes-dash-v3.png)
 
 URL: `http://<swarm-ip>:3000/dashboard/db/docker-swarm-nodes`
 
@@ -76,7 +76,7 @@ This dashboard shows key metrics for monitoring the resource usage of your Swarm
 
 ***Docker Swarm Services Dashboard***
 
-![Nodes](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/swarmprom-services-dash-v3.png)
+![Nodes](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/swarmprom-services-dash-v3.png)
 
 URL: `http://<swarm-ip>:3000/dashboard/db/docker-swarm-services`
 
@@ -94,7 +94,7 @@ This dashboard shows key metrics for monitoring the resource usage of your Swarm
 
 ***Prometheus Stats Dashboard***
 
-![Nodes](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/swarmprom-prometheus-dash-v3.png)
+![Nodes](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/swarmprom-prometheus-dash-v3.png)
 
 URL: `http://<swarm-ip>:3000/dashboard/db/prometheus`
 
@@ -163,7 +163,7 @@ file that is mounted inside the node-exporter container.
 
 ```yaml
   node-exporter:
-    image: stefanprodan/swarmprom-node-exporter
+    image: themis-spm/swarmprom-node-exporter
     environment:
       - NODE_ID={{.Node.ID}}
     volumes:
@@ -249,7 +249,7 @@ Replace 172.18.0.1 with your docker_gwbridge address in the compose file:
 
 ```yaml
   dockerd-exporter:
-    image: stefanprodan/caddy
+    image: themis-spm/caddy
     environment:
       - DOCKER_GWBRIDGE_IP=172.18.0.1
 ```
@@ -266,7 +266,7 @@ compose file.
 
 ```yaml
   prometheus:
-    image: stefanprodan/swarmprom-prometheus
+    image: themis-spm/swarmprom-prometheus
     command:
       - '-storage.local.target-heap-size=1073741824'
       - '-storage.local.retention=24h'
@@ -285,7 +285,7 @@ pin the Prometheus service on a specific host with placement constraints.
 
 ```yaml
   prometheus:
-    image: stefanprodan/swarmprom-prometheus
+    image: themis-spm/swarmprom-prometheus
     volumes:
       - prometheus:/prometheus
     deploy:
@@ -359,8 +359,8 @@ ALERT node_disk_fill_rate_6h
 ```
 
 You can add alerts to 
-[swarm_node](https://github.com/stefanprodan/swarmprom/blob/master/prometheus/rules/swarm_node.rules) 
-and [swarm_task](https://github.com/stefanprodan/swarmprom/blob/master/prometheus/rules/swarm_task.rules) 
+[swarm_node](https://github.com/themis-spm/swarmprom/blob/master/prometheus/rules/swarm_node.rules) 
+and [swarm_task](https://github.com/themis-spm/swarmprom/blob/master/prometheus/rules/swarm_task.rules) 
 files and rerun stack deploy to update them. Because these files are mounted inside the Prometheus 
 container at run time as [Docker configs](https://docs.docker.com/engine/swarm/configs/) 
 you don't have to bundle them with the image.
@@ -371,7 +371,7 @@ username and channel via environment variables:
 
 ```yaml
   alertmanager:
-    image: stefanprodan/swarmprom-alertmanager
+    image: themis-spm/swarmprom-alertmanager
     environment:
       - SLACK_URL=${SLACK_URL}
       - SLACK_CHANNEL=${SLACK_CHANNEL}
@@ -380,13 +380,13 @@ username and channel via environment variables:
 
 You can install the `stress` package with apt and test out the CPU alert, you should receive something like this:
 
-![Alerts](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/alertmanager-slack-v2.png)
+![Alerts](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/alertmanager-slack-v2.png)
 
 Cloudflare has made a great dashboard for managing alerts. 
 Unsee can aggregate alerts from multiple Alertmanager instances, running either in HA mode or separate. 
 You can access unsee at `http://<swarm-ip>:9094` using the admin user/password set via compose up:
 
-![Unsee](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/unsee.png)
+![Unsee](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/unsee.png)
 
 ## Monitoring applications and backend services
 
@@ -401,7 +401,7 @@ Prometheus config using the `JOBS` environment variable:
 
 ```yaml
   prometheus:
-    image: stefanprodan/swarmprom-prometheus
+    image: themis-spm/swarmprom-prometheus
     environment:
       - JOBS=mongo-exporter:9216 kafka-exporter:9216 redis-exporter:9216
 ```
@@ -452,8 +452,8 @@ monitor, and control your microservices based application.
 You can view metrics, tags and metadata of the running processes, containers and hosts. 
 Scope offers remote access to the Swarm’s nods and containers, making it easy to diagnose issues in real-time.
 
-![Scope](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/weave-scope.png)
+![Scope](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/weave-scope.png)
 
-![Scope Hosts](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/weave-scope-hosts-v2.png)
+![Scope Hosts](https://raw.githubusercontent.com/themis-spm/swarmprom/master/grafana/screens/weave-scope-hosts-v2.png)
 
 
