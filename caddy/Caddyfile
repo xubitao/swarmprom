@@ -20,7 +20,7 @@
 
 :9094 {
     basicauth / {$ADMIN_USER} {$ADMIN_PASSWORD}
-    proxy / unsee:8088 {
+    proxy / unsee:8080 {
             transparent
         }
 

@@ -129,7 +129,7 @@ scrape_configs:
     - names:
       - 'tasks.cadvisor'
       type: 'A'
-      port: 8088
+      port: 8080
   - job_name: 'dockerd-exporter'
     dns_sd_configs:
     - names:
