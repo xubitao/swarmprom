@@ -155,7 +155,8 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=24h'
     volumes:
-      - prometheus:/prometheus
+      - prometheus: /prometheus
+      - prometheus/conf/prometheus.yml: /etc/prometheus/prometheus.yml
     configs:
       - source: node_rules
         target: /etc/prometheus/swarm_node.rules.yml
